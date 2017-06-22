@@ -1,0 +1,25 @@
+{
+	"compilerOptions": {
+		"target": "es2017",
+		"module": "commonjs",
+		"moduleResolution": "Node",
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"lib": ["es2017"],
+		"typeRoots": [
+			"./node_modules/@types",
+			"./types"
+		],
+		"types": [
+			"node",
+			"koa-session"
+		]
+	},
+	"exclude": [
+		"src/client",
+		"node_modules"
+	],
+	"include": [
+		"src"
+	]
+}
