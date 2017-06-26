@@ -69,7 +69,7 @@ gulp.task('server-build', ['schemas-build'], () => Promise.all(TS_BUILD_PATHS.ma
 	)
 );
 
-gulp.task('server-watch', () => nodemon({
+gulp.task('server-watch', ['schemas-build'], () => nodemon({
 	script: dirname('./src/server'),
 	ext: 'ts',
 	watch: [dirname('./src/**/*.ts')],
@@ -83,7 +83,7 @@ gulp.task('schemas-build', () =>
 		.pipe(gulp.dest(dirname('./src'))
 ));
 
-gulp.task('schemas-watch', ['schemas-build'], () => {
+gulp.task('schemas-watch', () => {
 	gulp.watch(dirname('./src/**/*.gql'), ['schemas-build']);
 });
 

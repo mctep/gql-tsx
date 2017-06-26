@@ -40,10 +40,19 @@ export async function generateTypescriptDefenitions(file: File) {
 		outPath,
 	});
 
+	let contents = new Buffer(files[0].content.replace(/^\s{2}/gm, '\t'));
+	contents = Buffer.concat([
+		new Buffer(`/*
+This file was automatically generated
+Please do not change it
+*/\n\n`),
+		contents,
+	]);
+
 	return new File({
 		cwd: '/',
 		base: path.basename(files[0].path),
 		path: files[0].path,
-		contents: new Buffer(files[0].content.replace(/^\s{2}/gm, '\t')),
+		contents,
 	});
 }

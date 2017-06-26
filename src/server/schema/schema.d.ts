@@ -1,3 +1,8 @@
+/*
+This file was automatically generated
+Please do not change it
+*/
+
 /* tslint:disable */
 
 export interface Query {
