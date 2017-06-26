@@ -3,6 +3,7 @@
 export interface Query {
 	user: User | null;
 	users: Array<User> | null;
+	me: User | null;
 }
 
 export interface UserQueryArgs {

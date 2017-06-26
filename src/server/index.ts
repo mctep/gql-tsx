@@ -7,6 +7,7 @@ import * as session from 'koa-session';
 import { graphqlKoa, graphiqlKoa } from 'graphql-server-koa';
 import { sessionStore } from './services/session-store'
 import { schema } from './schema';
+import { responseTime } from './services/response-time';
 import { passport, login, authRequired } from './services/passport';
 
 const PORT = 3002;
@@ -14,13 +15,7 @@ const PORT = 3002;
 const app = new Koa();
 const router = new Router();
 
-app.use(async (ctx, next) => {
-	const start = new Date;
-	await next();
-	const ms = new Date().getTime() - start.getTime();
-	ctx.set('X-Response-Time', `${ms}ms`);
-});
-
+app.use(responseTime);
 app.use(logger());
 app.use(bodyparser());
 
@@ -34,7 +29,7 @@ router.get('/', ctx => {
 	ctx.body = user && `Hello, ${user.username}` || 'Please login';
 });
 
-router.post('/graphql', authRequired, graphqlKoa({ schema }));
+router.post('/graphql', authRequired, graphqlKoa((context) => ({ schema, context })));
 
 router.get('/graphiql', authRequired, graphiqlKoa(ctx => {
 	const xProxyPath = ctx.req.headers['x-proxy-path'];

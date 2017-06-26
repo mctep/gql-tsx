@@ -83,7 +83,7 @@ gulp.task('schemas-build', () =>
 		.pipe(gulp.dest(dirname('./src'))
 ));
 
-gulp.task('schemas-watch', () => {
+gulp.task('schemas-watch', ['schemas-build'], () => {
 	gulp.watch(dirname('./src/**/*.gql'), ['schemas-build']);
 });
 

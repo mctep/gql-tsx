@@ -6,8 +6,8 @@ export { passport };
 
 passport.serializeUser((user, done) => done(null, user.id));
 passport.deserializeUser((id, done) => {
-	if (id === 'userid') {
-		done(null, { id: 'userid', username: 'test', password: 'test' });
+	if (id === 1) {
+		done(null, { id: 1, username: 'test', password: 'test' });
 	} else {
 		done(new Error('not found??'), null);
 	}
@@ -15,7 +15,7 @@ passport.deserializeUser((id, done) => {
 
 const localStrategy = new passportLocal.Strategy((username, password, done) => {
 	if (username === 'test' && password === 'test') {
-		done(null, { id: 'userid', username: 'test', password: 'test' });
+		done(null, { id: 1, username: 'test', password: 'test' });
 	} else {
 		done(null, false);
 	}
