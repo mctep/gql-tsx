@@ -5,6 +5,8 @@
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
 		"lib": ["es2015", "dom"],
-		"types": []
+		"types": [],
+		"jsx": "react",
+		"allowJs": true
 	}
 }
