@@ -9,8 +9,7 @@ import { sessionStore } from './services/session-store'
 import { schema } from './schema';
 import { responseTime } from './services/response-time';
 import { passport, login, authRequired } from './services/passport';
-
-const PORT = 3002;
+import * as env from './env';
 
 const app = new Koa();
 const router = new Router();
@@ -19,8 +18,8 @@ app.use(responseTime);
 app.use(logger());
 app.use(bodyparser());
 
-app.keys = ['some secret key. needs to remove'];
-app.use(session({ key: 'sess', store: sessionStore }, app));
+app.keys = [env.SECRET_KEY];
+app.use(session({ key: 'sid', store: sessionStore }, app));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -45,4 +44,4 @@ router.post('/login', login);
 app.use(router.routes());
 app.use(router.allowedMethods());
 
-app.listen(PORT, () => console.log(`Server started at ${PORT} port`));
+app.listen(env.API_PORT, () => console.log(`Server started at ${env.API_PORT} port`));

@@ -7,6 +7,7 @@ import * as WebpackDevServer from 'webpack-dev-server';
 import * as gutil from 'gulp-util';
 import * as ts from 'gulp-typescript';
 import * as nodemon from 'gulp-nodemon';
+import { API_PORT } from './src/server/env';
 
 import { createDirname } from './src/util/dirname';
 import { gql2ts } from './src/util/graphql/generate-tsd';
@@ -16,8 +17,7 @@ const gulpLog = (prefix: string, msg: string) =>
 msg.split('\n').forEach(line => gutil.log(prefix, line));
 
 const dirname = createDirname(__dirname);
-const CLIENT_PORT = 3001;
-const API_PORT = 3002;
+const CLIENT_PORT = API_PORT + 1;
 
 const TS_BUILD_PATHS = fs.readdirSync(dirname('./src'))
 	.filter(name => name !== 'client')
