@@ -29,19 +29,23 @@ const tsProject = ts.createProject(dirname('./tsconfig.json'), {
 
 gulp.task('client-build', () => {
 	return del(dirname('./build/client'))
-	.then(() => promisify(webpack)(createWebpackConfig()))
+	.then(() => promisify(webpack)(createWebpackConfig({})))
 	.then((stats: webpack.Stats) => {
 		gulpLog('[webpack]', stats.toString('normal'));
 	});
 });
 
 gulp.task('client-watch', () => {
-	const compiler = webpack(createWebpackConfig());
+	const compiler = webpack(createWebpackConfig({ port: CLIENT_PORT }));
 
 	new WebpackDevServer(compiler, {
 		contentBase: dirname('/build'),
 		publicPath: '/client',
-		stats: 'normal',
+		stats: {
+			modules: true,
+			colors: true,
+		},
+		hot: true,
 		proxy: {
 			'/api': {
 				target: `http://localhost:${API_PORT}`,

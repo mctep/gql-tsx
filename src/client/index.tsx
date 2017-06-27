@@ -19,11 +19,9 @@ render(App);
 declare const module: any;
 declare const require: any;
 
-if (typeof module !== 'undefined') {
-	if (module.hot) {
-		module.hot.accept('./app', () => {
-			render(require('./app').default)
-		});
-	}
+if (module.hot) {
+	module.hot.accept('./app', () => {
+		render(require('./app').App)
+	});
 }
 
