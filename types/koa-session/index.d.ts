@@ -14,10 +14,10 @@
  =============================================== */
 
 declare module 'koa-session' {
-	import * as Koa from "koa";
+	import * as Koa from 'koa';
 
-	namespace session {
-		interface sessionConfig {
+	namespace koaSession {
+		interface Options {
 			/**
 			 * cookie key (default is koa:sess)
 			 */
@@ -48,19 +48,20 @@ declare module 'koa-session' {
 			/**
 			 * You can store the session content in external stores(redis, mongodb or other DBs)
 			 */
-			store?: session.stores;
+			store?: koaSession.Store;
 
 			/**
 			 * Hook: valid session value before use it
 			 */
-			valid?(...rest: any[]): void;
+			valid?(...rest: Array<any>): void;
 
 			/**
 			 * Hook: before save session
 			 */
-			beforeSave?(...rest: any[]): void;
+			beforeSave?(...rest: Array<any>): void;
 		}
-		interface sessionProps {
+
+		interface Session {
 			/**
 			 * Returns true if the session is new
 			 */
@@ -78,7 +79,7 @@ declare module 'koa-session' {
 			[propName: string]: any;
 		}
 
-		interface stores {
+		interface Store {
 			/**
 			 * get session object by key
 			 */
@@ -96,15 +97,15 @@ declare module 'koa-session' {
 		}
 	}
 
-	function session(CONFIG: session.sessionConfig, app: Koa): Koa.Middleware;
+	function koaSession(CONFIG: koaSession.Options, app: Koa): Koa.Middleware;
 
-	function session(app: Koa): Koa.Middleware;
+	function koaSession(app: Koa): Koa.Middleware;
 
 	module 'koa' {
 		interface Context {
-			session: session.sessionProps;
+			session: koaSession.Session;
 		}
 	}
 
-	export = session;
+	export = koaSession;
 }

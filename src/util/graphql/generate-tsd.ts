@@ -1,34 +1,35 @@
-import * as path from 'path';
 import * as fs from 'fs';
-import { graphql, introspectionQuery } from 'graphql';
+import { graphql, introspectionQuery, IntrospectionSchema } from 'graphql';
 import { getTemplateGenerator, Transform } from 'graphql-code-generator';
 import { makeExecutableSchema } from 'graphql-tools';
-import * as File from 'vinyl';
 import * as mapStream from 'map-stream';
+import * as path from 'path';
+import * as File from 'vinyl';
 
 const templateGenerator = getTemplateGenerator('typescript');
 
 export function gql2ts(): fs.WriteStream {
-	return mapStream((file, cb) => {
+	return mapStream((file: any, cb: any) => {
 		generateTypescriptDefenitions(file).then(f => cb(null, f)).catch(cb);
 	});
 }
 
 export async function generateTypescriptDefenitions(file: File) {
-	if (!file || !file.isBuffer()) { return null; }
+	if (!file || !file.isBuffer()) {
+		return null;
+	}
 
 	const typeDefs = file.contents.toString('utf-8');
-	const outPath = path.join(
-		path.dirname(file.path),
-		path.basename(file.path, '.gql'),
-	) + '.d.ts';
+	const outPath =
+		path.join(path.dirname(file.path), path.basename(file.path, '.gql')) +
+		'.d.ts';
 
 	const template = await templateGenerator;
 	const schema = makeExecutableSchema({ typeDefs });
 
-	const introspection = (
-		await graphql(schema, introspectionQuery)
-	).data as { __schema: null };
+	const introspection = (await graphql(schema, introspectionQuery)).data as {
+		__schema: IntrospectionSchema;
+	};
 
 	const files = await Transform({
 		documents: [],

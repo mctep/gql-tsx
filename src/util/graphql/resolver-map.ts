@@ -12,12 +12,10 @@ export interface IResolver<Root, ArgsMap> {
 	argsMap: ArgsMap;
 }
 
-type QueryDeclaration<C, R, Q extends {[P in keyof R]: {}}> = {
-	[P in keyof (Q | R)]: Resolver<R, Q[P], C, R[P]>;
+type QueryDeclaration<C, R, Q extends { [P in keyof R]: {} }> = {
+	[P in keyof R]: Resolver<R, Q[P], C, R[P]>
 };
 
-export type Resolvers<C,
-	Q extends { [key: string]: IResolver<any, any> }
-> = {
+export type Resolvers<C, Q extends { [key: string]: IResolver<any, any> }> = {
 	[P in keyof Q]: QueryDeclaration<C, Q[P]['root'], Q[P]['argsMap']>
 };

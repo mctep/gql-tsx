@@ -1,0 +1,8 @@
+{
+	"extends": "../tsconfig.json",
+	"compilerOptions": {
+		"types": ["node", "node-env-file", "koa-session", "koa-redis", "map-stream"]
+	},
+	"exclude": ["../node_modules", "./client"],
+	"include": ["."]
+}

@@ -24,7 +24,7 @@ const localStrategy = new passportLocal.Strategy((username, password, done) => {
 passport.use(localStrategy);
 
 export const login: Koa.Middleware = (ctx, next) => {
-	passport.authenticate('local', (_, user) => {
+	passport.authenticate('local', (_: any, user: any) => {
 		if (user === false) {
 			ctx.status = 401;
 		} else {
@@ -40,4 +40,4 @@ export const authRequired: Koa.Middleware = (ctx, next) => {
 	} else {
 		next();
 	}
-}
+};
